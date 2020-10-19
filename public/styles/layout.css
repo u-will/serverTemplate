@@ -1,0 +1,31 @@
+#one {
+  display: block;
+  grid-row: 3;
+  height: 20px;
+  width: 100px;
+  padding: 50px;
+}
+
+#two {
+  display: block;
+  grid-row: 4;
+  padding: 50px;
+}
+
+#three {
+  display: block;
+  grid-row: 5;
+  padding: 50px;
+}
+
+button {
+  display: block;
+  grid-row: 6;
+  padding: 50px;
+}
+
+#searchbar {
+  grid-row: 7;
+  height: 40px;
+  width: 80vw;
+}

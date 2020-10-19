@@ -3,7 +3,7 @@
 const express = require('express');
 const superagent = require('superagent');
 const dotenv = require('dotenv');
-const PORT  = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 const app = express();
 
@@ -14,18 +14,30 @@ app.use(cors());
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-res.render('pages/index');
+  res.render('pages/index');
 });
 app.get('/error', (req, res) => {
   res.render('pages/error');
-  });
+});
 app.get('/show', (req, res) => {
   res.render('pages/searches/show');
-  });
+});
+app.get('/new', (req, res) => {
+  res.render('pages/searches/new');
+});
 app.get('/hello', (req, res) => {
   res.send('Hello World');
-  });
+});
+app.get('*', errorMessage)
+
 app.post('/searches', createSearch);
+
+function Books (book) {
+
+}
+
+
+
 
 function createSearch(req, res) {
   let url = 'https://www.googleapis.com/books/v1/volumes?q=';
@@ -36,11 +48,17 @@ function createSearch(req, res) {
   if (req.body.search[1] === 'author') { url += `+inauthor:${req.body.search[0]}`; }
 
   superagent.get(url)
-  .then(data => {
-    console.log('google books data:', data);
-    
-  });
+    .then(data => {
+      console.log('google books data:', data);
+
+    });
 };
+
+function errorMessage(request, response) {
+
+  response.status(500).send('OOPS!');
+  //response if things go wrong
+}
 
 app.listen(PORT, () => {
   console.log(`listening on ${PORT}`);

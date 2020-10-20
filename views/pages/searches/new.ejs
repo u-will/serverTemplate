@@ -12,6 +12,7 @@
 </head>
 
 <body>
+  <header>header</header>
   <form action="/searches" method="post">
     
     <fieldset id="one">
@@ -20,16 +21,17 @@
 
     <fieldset id="two">
       Title 
-      <input type="radio" name="search" placeholder="search..." required>
+      <input type="radio" value="title" name="search" required>
     </fieldset>
 
     <fieldset id="three">
       Author
-      <input type="radio" name="search" placeholder="search..." required>
+      <input type="radio" value="author" name="search" required>
     </fieldset>
 
     <button type="submit">Search the GBooks API</button>
   </form>
+  <footer><p>footer</p></footer>
 </body>
 
 </html>

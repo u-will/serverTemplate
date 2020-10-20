@@ -19,9 +19,9 @@ app.get('/', (req, res) => {
 app.get('/error', (req, res) => {
   res.render('pages/error');
 });
-app.get('/show', (req, res) => {
-  res.render('pages/searches/show');
-});
+// app.get('/show', (req, res) => {
+//   res.render('pages/searches/show');
+// });
 app.get('/new', (req, res) => {
   res.render('pages/searches/new');
 });
@@ -32,11 +32,17 @@ app.get('*', errorMessage)
 
 app.post('/searches', createSearch);
 
-function Books (book) {
+function Books(book) {
 
+this.title = book.authors ? book.authors: 'none available';
+this.authors = book.title ? book.title: 'none available';
+let coverArt = google_books_data.imageLinks.Thumbnail ? 'google books data':, book.imageLinks.Thumbnail: 'https://i.imgur.com/J5LVHEL.jpg';
+if (book.imageLinks.smallThumbnail.slice(0, 5) !== 'https') {
+  coverArt = 'https' + coverArt.slice(4, coverArt.length)
 }
-
-
+this.coverArt = coverArt;
+// const greeting = 'hello' + personalbar.object ? person.name: 'person';
+}
 
 
 function createSearch(req, res) {
@@ -48,11 +54,20 @@ function createSearch(req, res) {
   if (req.body.search[1] === 'author') { url += `+inauthor:${req.body.search[0]}`; }
 
   superagent.get(url)
-    .then(data => {
-      console.log('google books data:', data);
-
-    });
-};
+  .then(data => {
+    // let bookModel = new Books(book);
+    // console.log(bookModel);
+      console.log('google books data:', data.body.items[0].volumeInfo);
+      let apiInfo = data.body.items.map(x => {
+        return new Books(x);
+      })
+res.render('pages/searches/show', {bookModel: apiInfo});
+    // }).catch (error) {
+    // errorMessage();
+    // }
+    
+  });
+}
 
 function errorMessage(request, response) {
 
